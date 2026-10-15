@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "id": "rnnoise",
+  "name": "RNNoise",
+  "description": "Local 48 kHz speech noise suppression from Xiph.Org RNNoise. No network access or echo cancellation.",
+  "default_variant": "standard",
+  "abi": {
+    "initialize": "_initialize",
+    "create": "audio_init",
+    "input": "audio_input",
+    "output": "audio_output",
+    "process": "audio_process",
+    "reset": "audio_reset",
+    "frame_samples": 480,
+    "process_controls": ["strength"]
+  },
+  "variants": [
+    {"id": "standard", "label": "RNNoise · 48 kHz", "file": "standard.wasm", "description": "Full model for speech and environmental noise."},
+    {"id": "little", "label": "RNNoise Light · 48 kHz", "file": "little.wasm", "description": "A smaller model for devices with less processing capacity."}
+  ],
+  "fields": [
+    {"key": "strength", "label": "Suppression strength", "type": "range", "min": 0, "max": 100, "step": 1, "default": 100, "scale": 0.01, "help": "Lower this if your voice sounds overprocessed. It blends in time-aligned original audio."}
+  ],
+  "diagnostics": [{"key": "speech", "label": "Speech probability", "export": "audio_probability"}]
+}

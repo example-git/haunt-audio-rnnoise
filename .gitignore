@@ -1,0 +1,8 @@
+.cache/
+test-results/
+__pycache__/
+*.pyc
+.env*
+*.key
+*.pem
+.DS_Store
