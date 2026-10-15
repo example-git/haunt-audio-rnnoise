@@ -1,0 +1,29 @@
+name: Build and verify audio plugin
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: mlugg/setup-zig@v2
+        with:
+          version: 0.15.2
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      - run: python3 scripts/build.py
+      - run: node scripts/check.mjs
+      - run: python3 scripts/check-docs.py
+      - name: Verify committed package
+        run: git diff --exit-code -- dist/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rnnoise-audio-plugin
+          path: dist/*
