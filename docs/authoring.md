@@ -68,14 +68,12 @@ node scripts/check.mjs /path/to/short-speech.wav
 The script builds variants serially at low priority and caps CPU affinity on Linux.
 The check accepts a WAV speech clip, saves clean/noisy originals and each filtered
 variant under ignored `test-results/`, and checks finite output, initialization,
-reset and dry-path alignment. Retain completed results; do not repeatedly launch
-parallel corpora on a shared host. Listen to saved pairs and test quiet/loud speech
+reset and dry-path alignment. Listen to saved pairs and test quiet/loud speech
 and several noise types. Noise reduction alone is not a speech-quality score.
 
-Fixed 32 MiB memory and no host imports are intentional. Haunt's maximum is 64 MiB
-per module, not an invitation to use it all. Package size and watchdog limits do
-not guarantee acceptable CPU use: leave room inside the 10 ms processing budget
-on slower devices. Echo cancellation, network callbacks and GPU inference are not
+RNNoise uses fixed 32 MiB memory and no host imports. Haunt permits up to 64 MiB
+per module. Processing must fit within the 10 ms frame budget on the target
+device; package size and watchdog limits do not measure processing cost. Echo cancellation, network callbacks and GPU inference are not
 part of this interface.
 
 Finally install on an isolated Haunt server and test real microphone preview,
